@@ -14,6 +14,7 @@ classdef CVModelGUI < matlab.apps.AppBase
         MVMaxOpeningAreacm2EditField    matlab.ui.control.NumericEditField
         MVLeakageAreacm2EditFieldLabel  matlab.ui.control.Label
         MVLeakageAreacm2EditField       matlab.ui.control.NumericEditField
+        ResetDefaultValuesButton        matlab.ui.control.Button
     end
 
    
@@ -33,6 +34,14 @@ classdef CVModelGUI < matlab.apps.AppBase
                'area_leak', num2str(app.MVLeakageAreacm2EditField.Value))
             simout = sim('Michaels_CVModel_0408_fast4');
         end
+
+        % Button pushed function: ResetDefaultValuesButton
+        function ResetDefaultValuesButtonPushed(app, event)
+            app.AVMaxOpeningAreacm2EditField.Value = 4;
+            app.AVLeakageAreacm2EditField.Value = 1e-13;
+            app.MVMaxOpeningAreacm2EditField.Value = 5;
+            app.MVLeakageAreacm2EditField.Value = 1e-13;
+        end
     end
 
     % Component initialization
@@ -43,7 +52,7 @@ classdef CVModelGUI < matlab.apps.AppBase
 
             % Create UIFigure and hide until all components are created
             app.UIFigure = uifigure('Visible', 'off');
-            app.UIFigure.Position = [100 100 329 274];
+            app.UIFigure.Position = [100 100 312 274];
             app.UIFigure.Name = 'MATLAB App';
 
             % Create AVMaxOpeningAreacm2EditFieldLabel
@@ -95,6 +104,12 @@ classdef CVModelGUI < matlab.apps.AppBase
             app.MVLeakageAreacm2EditField = uieditfield(app.UIFigure, 'numeric');
             app.MVLeakageAreacm2EditField.Position = [195 96 100 22];
             app.MVLeakageAreacm2EditField.Value = 1e-13;
+
+            % Create ResetDefaultValuesButton
+            app.ResetDefaultValuesButton = uibutton(app.UIFigure, 'push');
+            app.ResetDefaultValuesButton.ButtonPushedFcn = createCallbackFcn(app, @ResetDefaultValuesButtonPushed, true);
+            app.ResetDefaultValuesButton.Position = [26 30 127 22];
+            app.ResetDefaultValuesButton.Text = 'Reset Default Values';
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
